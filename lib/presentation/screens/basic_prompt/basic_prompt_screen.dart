@@ -24,30 +24,24 @@ final messages = <types.Message>[
   types.TextMessage(
     author: user,
     id: Uuid().v4(),
-    text: 'Olá, como posso ajudar?',
-    createdAt: now,
+    text:
+        'É um app de chat com interface em Flutter e respostas geradas pelo Gemini.',
+    createdAt: now - 2000,
   ),
   types.TextMessage(
     author: geminiUser,
     id: Uuid().v4(),
-    text:
-        'Olá Carlos! Você pode me contar mais sobre o projeto em que está trabalhando?',
-    createdAt: now - 2000,
+    text: 'Legal! Sobre o que é o projeto que você está desenvolvendo?',
+    createdAt: now - 4000,
   ),
   types.TextMessage(
     author: user,
     id: Uuid().v4(),
-    text: 'Claro! Estou desenvolvendo um app de chat usando Flutter.',
-    createdAt: now - 4000,
-  ),
-  types.TextMessage(
-    author: geminiUser,
-    id: Uuid().v4(),
     text:
-        'Isso é ótimo! Precisa de ajuda com alguma funcionalidade específica?',
+        'Oi! Estou fazendo um curso de Flutter + Gemini em DevTalles com o Fernando Herrera.',
     createdAt: now - 6000,
   ),
-]..sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+];
 
 class BasicPromptScreen extends StatelessWidget {
   const BasicPromptScreen({super.key});
@@ -91,7 +85,13 @@ class BasicPromptScreen extends StatelessWidget {
         typingIndicatorOptions: TypingIndicatorOptions(
           typingUsers: [geminiUser],
           customTypingWidget: const Center(
-            child: Text('Gemini está pensando...'),
+            child: Text(
+              'Só um segundo...',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
         ),
       ),
