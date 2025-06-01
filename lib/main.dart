@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gemchat/config/router/app_router.dart';
+import 'package:gemchat/config/theme/app_theme.dart';
 
 void main() {
+  AppTheme.setSystemUIOverlayStyle(isDarkMode: true);
+
   runApp(const MainApp());
 }
 
@@ -13,6 +16,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
+      theme: AppTheme(isDarkMode: true).getTheme(),
     );
   }
 }
