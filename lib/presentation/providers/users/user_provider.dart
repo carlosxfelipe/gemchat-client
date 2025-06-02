@@ -10,7 +10,7 @@ User geminiUser(Ref ref) {
     id: 'gemini-id',
     firstName: 'Gemini',
     imageUrl:
-        'https://avatars.githubusercontent.com/u/85801709?s=400&u=01cce0318ea853ce1a133699bc6b2af1919094d6&v=4',
+        'https://brandlogos.net/wp-content/uploads/2025/03/gemini_icon-logo_brandlogos.net_bqzeu-512x512.png',
   );
 
   return geminiUser;
@@ -22,7 +22,8 @@ User user(Ref ref) {
     id: 'user-id-abc',
     firstName: 'Carlos Felipe',
     lastName: 'Araújo',
-    imageUrl: 'https://picsum.photos/id/177/200/200',
+    imageUrl:
+        'https://avatars.githubusercontent.com/u/85801709?s=400&u=01cce0318ea853ce1a133699bc6b2af1919094d6&v=4',
   );
 
   return user;

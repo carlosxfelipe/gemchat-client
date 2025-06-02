@@ -63,21 +63,26 @@ class BasicPromptScreen extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
+              width: 44,
+              height: 44,
+              decoration: const BoxDecoration(
+                color:
+                    Colors.white, // visível apenas se a imagem for transparente
                 shape: BoxShape.circle,
               ),
-              padding: const EdgeInsets.all(4),
               child: ClipOval(
-                child: Image.network(
-                  user.imageUrl ?? '',
-                  fit: BoxFit.cover,
-                  errorBuilder:
-                      (context, error, stackTrace) =>
-                          const Icon(Icons.person, size: 20),
-                ),
+                child:
+                    user.imageUrl != null && user.imageUrl!.isNotEmpty
+                        ? Image.network(
+                          user.imageUrl!,
+                          width: 44,
+                          height: 44,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (context, error, stackTrace) =>
+                                  const Icon(Icons.person, size: 20),
+                        )
+                        : const Icon(Icons.person, size: 20),
               ),
             ),
           );

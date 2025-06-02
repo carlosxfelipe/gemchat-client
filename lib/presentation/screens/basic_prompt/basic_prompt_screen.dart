@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gemchat/presentation/providers/chat/basic_chat.dart';
 
 import 'package:gemchat/presentation/providers/chat/is_gemini_writing.dart';
 import 'package:gemchat/presentation/providers/users/user_provider.dart';
@@ -15,17 +16,15 @@ class BasicPromptScreen extends ConsumerWidget {
     final geminiUser = ref.watch(geminiUserProvider);
     final user = ref.watch(userProvider);
     final isGeminiWriting = ref.watch(isGeminiWritingProvider);
+    final chatMessages = ref.watch(basicChatProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Prompt Básico')),
       body: Chat(
-        messages: [
-          types.TextMessage(author: user, id: 'id1', text: 'text1'),
-          types.TextMessage(author: user, id: 'id2', text: 'text2'),
-          types.TextMessage(author: user, id: 'id3', text: 'text3'),
-        ],
+        messages: chatMessages,
         onSendPressed: (types.PartialText partialText) {
-          debugPrint('Mensagem: ${partialText.text}');
+          final basicChatNotifier = ref.read(basicChatProvider.notifier);
+          basicChatNotifier.addMessage(partialText: partialText, user: user);
         },
         user: user,
         theme: DarkChatTheme(),
@@ -35,18 +34,20 @@ class BasicPromptScreen extends ConsumerWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
+              width: 44,
+              height: 44,
+              decoration: const BoxDecoration(
+                color:
+                    Colors.white, // visível apenas se a imagem for transparente
                 shape: BoxShape.circle,
               ),
-              padding: const EdgeInsets.all(4),
               child: ClipOval(
                 child:
                     user.imageUrl != null && user.imageUrl!.isNotEmpty
                         ? Image.network(
                           user.imageUrl!,
+                          width: 44,
+                          height: 44,
                           fit: BoxFit.cover,
                           errorBuilder:
                               (context, error, stackTrace) =>

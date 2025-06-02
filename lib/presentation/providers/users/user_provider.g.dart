@@ -6,7 +6,7 @@ part of 'user_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$geminiUserHash() => r'e589cc000186d3e06b49766e04e08441f83a5ac2';
+String _$geminiUserHash() => r'26a9fba259459bb84988e6030efa2707cf662849';
 
 /// See also [geminiUser].
 @ProviderFor(geminiUser)
@@ -22,7 +22,7 @@ final geminiUserProvider = AutoDisposeProvider<User>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GeminiUserRef = AutoDisposeProviderRef<User>;
-String _$userHash() => r'5f9090f844acca2858398987f3bda48598712c22';
+String _$userHash() => r'4ace401ad01f0c21bd2be193cf97a6db70e0cac0';
 
 /// See also [user].
 @ProviderFor(user)
