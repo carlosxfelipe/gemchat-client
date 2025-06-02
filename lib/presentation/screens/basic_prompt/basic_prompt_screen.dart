@@ -83,7 +83,7 @@ class BasicPromptScreen extends StatelessWidget {
           );
         },
         typingIndicatorOptions: TypingIndicatorOptions(
-          typingUsers: [geminiUser],
+          // typingUsers: [geminiUser],
           customTypingWidget: const Center(
             child: Text(
               'Só um segundo...',
