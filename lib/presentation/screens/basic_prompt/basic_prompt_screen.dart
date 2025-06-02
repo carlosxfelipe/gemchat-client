@@ -1,57 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:uuid/uuid.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final user = types.User(
-  id: 'user-id-abc',
-  firstName: 'Carlos Felipe',
-  lastName: 'Araújo',
-  imageUrl:
-      'https://avatars.githubusercontent.com/u/85801709?s=400&u=01cce0318ea853ce1a133699bc6b2af1919094d6&v=4',
-);
+import 'package:gemchat/presentation/providers/chat/is_gemini_writing.dart';
+import 'package:gemchat/presentation/providers/users/user_provider.dart';
+// import 'package:uuid/uuid.dart';
 
-final geminiUser = types.User(
-  id: 'gemini-id',
-  firstName: 'Gemini',
-  imageUrl:
-      'https://brandlogos.net/wp-content/uploads/2025/03/gemini_icon-logo_brandlogos.net_bqzeu-512x512.png',
-);
-
-final now = DateTime.now().millisecondsSinceEpoch;
-
-final messages = <types.Message>[
-  types.TextMessage(
-    author: user,
-    id: Uuid().v4(),
-    text:
-        'É um app de chat com interface em Flutter e respostas geradas pelo Gemini.',
-    createdAt: now - 2000,
-  ),
-  types.TextMessage(
-    author: geminiUser,
-    id: Uuid().v4(),
-    text: 'Legal! Sobre o que é o projeto que você está desenvolvendo?',
-    createdAt: now - 4000,
-  ),
-  types.TextMessage(
-    author: user,
-    id: Uuid().v4(),
-    text:
-        'Oi! Estou fazendo um curso de Flutter + Gemini em DevTalles com o Fernando Herrera.',
-    createdAt: now - 6000,
-  ),
-];
-
-class BasicPromptScreen extends StatelessWidget {
+class BasicPromptScreen extends ConsumerWidget {
   const BasicPromptScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final geminiUser = ref.watch(geminiUserProvider);
+    final user = ref.watch(userProvider);
+    final isGeminiWriting = ref.watch(isGeminiWritingProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Prompt Básico')),
       body: Chat(
-        messages: messages,
+        messages: [
+          types.TextMessage(author: user, id: 'id1', text: 'text1'),
+          types.TextMessage(author: user, id: 'id2', text: 'text2'),
+          types.TextMessage(author: user, id: 'id3', text: 'text3'),
+        ],
         onSendPressed: (types.PartialText partialText) {
           debugPrint('Mensagem: ${partialText.text}');
         },
@@ -71,19 +43,22 @@ class BasicPromptScreen extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(4),
               child: ClipOval(
-                child: Image.network(
-                  user.imageUrl ?? '',
-                  fit: BoxFit.cover,
-                  errorBuilder:
-                      (context, error, stackTrace) =>
-                          const Icon(Icons.person, size: 20),
-                ),
+                child:
+                    user.imageUrl != null && user.imageUrl!.isNotEmpty
+                        ? Image.network(
+                          user.imageUrl!,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (context, error, stackTrace) =>
+                                  const Icon(Icons.person, size: 20),
+                        )
+                        : const Icon(Icons.person, size: 20),
               ),
             ),
           );
         },
         typingIndicatorOptions: TypingIndicatorOptions(
-          // typingUsers: [geminiUser],
+          typingUsers: isGeminiWriting ? [geminiUser] : [],
           customTypingWidget: const Center(
             child: Text(
               'Só um segundo...',
